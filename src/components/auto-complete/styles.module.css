@@ -33,7 +33,6 @@
 .results li:hover {
   background-color: darkgray;
   cursor: pointer;
-  font-weight: 700;
 }
 
 .results li:not(:last-of-type) {

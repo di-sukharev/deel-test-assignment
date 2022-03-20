@@ -6,6 +6,21 @@ interface Props {
   placeholder?: string;
 }
 
+const getHighlightedText = (text: string, highlight: string) => {
+  const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+  return (
+    <span>
+      {parts.map((part, i) =>
+        part.toLowerCase() === highlight.toLowerCase() ? (
+          <b key={i}>{part}</b>
+        ) : (
+          part
+        )
+      )}
+    </span>
+  );
+};
+
 const AutoComplete: React.FC<Props> = ({ fetchSuggestions, placeholder }) => {
   const [input, setInput] = useState<string>("");
   const [filtered, setFiltered] = useState<string[]>([]);
@@ -70,11 +85,11 @@ const AutoComplete: React.FC<Props> = ({ fetchSuggestions, placeholder }) => {
       <ul className={styles.results}>
         {filtered.map((suggestion, i) => (
           <li
-            className={i === active ? styles.active : undefined}
             key={suggestion}
+            className={i === active ? styles.active : undefined}
             onClick={onClick}
           >
-            {suggestion}
+            {getHighlightedText(suggestion, input)}
           </li>
         ))}
       </ul>
