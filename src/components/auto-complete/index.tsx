@@ -48,6 +48,7 @@ const AutoComplete: React.FC<Props> = ({ fetchSuggestions, placeholder }) => {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.keyCode === 13) {
+      fetchFilteredSuggestions("");
       setActive(0);
       setIsVisible(false);
       setInput(filtered[active]);
