@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 interface Props {
@@ -33,35 +33,42 @@ const AutoComplete: React.FC<Props> = ({ fetchSuggestions, placeholder }) => {
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.currentTarget.value;
-    fetchFilteredSuggestions(input);
+    const value = e.currentTarget.value;
+    fetchFilteredSuggestions(value);
+    setInput(value);
     setActive(0);
     setIsVisible(true);
-    setInput(input);
   };
 
   const onClick = (e: React.MouseEvent<HTMLLIElement>) => {
+    const value = e.currentTarget.innerText;
+    fetchFilteredSuggestions("");
+    setInput(value);
     setActive(0);
-    setFiltered([]);
     setIsVisible(false);
-    setInput(e.currentTarget.innerText);
   };
 
   const onBlur = () => {
-    setActive(0);
     setIsVisible(false);
   };
 
   const onFocus = () => {
-    setActive(0);
     setIsVisible(true);
   };
+
+  useEffect(() => {
+    const el = document.getElementById(`suggestion-${active}`);
+    el?.scrollIntoView({ behavior: "auto", block: "nearest" });
+  }, [active]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.keyCode === 13) {
       setActive(0);
       setIsVisible(false);
       setInput(filtered[active]);
+    } else if (e.key === "Escape" || e.keyCode === 27) {
+      setActive(0);
+      setIsVisible(false);
     } else if (e.key === "ArrowUp" || e.keyCode === 38) {
       if (active === 0) {
         setActive(filtered.length - 1);
@@ -85,8 +92,12 @@ const AutoComplete: React.FC<Props> = ({ fetchSuggestions, placeholder }) => {
       <ul className={styles.results}>
         {filtered.map((suggestion, i) => (
           <li
+            id={`suggestion-${i}`}
             key={suggestion}
             className={i === active ? styles.active : undefined}
+            // we need to prevent default behavior of onMouseDown
+            // to block input onBlur event that breaks onClick
+            onMouseDown={(e) => e.preventDefault()}
             onClick={onClick}
           >
             {getHighlightedText(suggestion, input)}
