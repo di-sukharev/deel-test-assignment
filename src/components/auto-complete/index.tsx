@@ -3,9 +3,10 @@ import styles from "./styles.module.css";
 
 interface Props {
   fetchSuggestions: (query: string) => Promise<string[]>;
+  placeholder?: string;
 }
 
-const AutoComplete: React.FC<Props> = ({ fetchSuggestions }) => {
+const AutoComplete: React.FC<Props> = ({ fetchSuggestions, placeholder }) => {
   const [input, setInput] = useState<string>("");
   const [filtered, setFiltered] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -84,6 +85,7 @@ const AutoComplete: React.FC<Props> = ({ fetchSuggestions }) => {
     <div className={styles.autocomplete}>
       <input
         type="text"
+        placeholder={placeholder}
         className={styles.input}
         onChange={onChange}
         onKeyDown={onKeyDown}

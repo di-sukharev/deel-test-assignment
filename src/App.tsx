@@ -6,7 +6,10 @@ import { fetchAutoCompleteCities } from "./api";
 function App() {
   return (
     <div className={styles.app}>
-      <AutoComplete fetchSuggestions={fetchAutoCompleteCities} />
+      <AutoComplete
+        placeholder="Type a city"
+        fetchSuggestions={fetchAutoCompleteCities}
+      />
     </div>
   );
 }
