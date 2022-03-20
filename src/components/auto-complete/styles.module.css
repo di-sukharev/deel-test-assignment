@@ -1,0 +1,41 @@
+.autocomplete {
+  max-width: 300px;
+}
+
+.input {
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.noResults {
+  color: #ccc;
+  padding: 8px;
+}
+
+.results {
+  border: 1px solid #ccc;
+  border-top-width: 0;
+  list-style: none;
+  margin-top: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-left: 0;
+  width: 100%;
+}
+
+.results li {
+  padding: 8px;
+}
+
+.results > .active,
+.results li:hover {
+  background-color: darkgray;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.results li:not(:last-of-type) {
+  border-bottom: 1px solid #ccc;
+}
